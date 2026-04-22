@@ -1,5 +1,5 @@
 // ==========================================
-// 1. CHARAKTER DATEN (Zustand der Anwendung)
+// 1. CHARAKTER DATEN
 // ==========================================
 const char = {
     level: 1,
@@ -15,9 +15,8 @@ const char = {
 };
 
 // ==========================================
-// 2. ELEMENTE AUS DEM HTML HOLEN (Caching)
+// 2. ELEMENTE AUS DEM HTML HOLEN
 // ==========================================
-// Wir speichern die Referenzen einmalig ab, um Performance zu sparen.
 const hpAnzeige = document.getElementById("hp-wert");
 const wasserAnzeige = document.getElementById("wasser-wert");
 const levelAnzeige = document.getElementById("level-wert");
@@ -27,77 +26,78 @@ const manaAnzeige = document.getElementById("mana-wert");
 const countdownAnzeige = document.getElementById("countdown-wert");
 
 // ==========================================
-// 3. LOGIK-FUNKTIONEN (Algorithmen)
+// 3. LOGIK-FUNKTIONEN
 // ==========================================
 
-/**
- * Berechnet das Trinken von Wasser.
- * Bei Erreichen des Ziels gibt es HP-Bonus.
- */
 function trinkeWasser(menge) {
     char.wasserEingenommen += menge;
-    
     if (char.wasserEingenommen >= char.wasserZiel) {
         alert("Quest abgeschlossen: Du bist hydriert! +10 HP");
-        char.hp = Math.min(char.hp + 10, char.maxHp); // Heilen, aber nicht über MaxHP
-        char.wasserEingenommen = 0; // Reset für den nächsten Durchlauf
+        char.hp = Math.min(char.hp + 10, char.maxHp);
+        char.wasserEingenommen = 0;
     }
     updateUI();
 }
 
 /**
- * Berechnet XP-Gewinn und den Level-Up-Algorithmus.
+ * Erweitertes Lernen: Kostet jetzt Mana. 
+ * Wenn Mana 0 ist, verliert man HP (Burnout-Mechanik).
  */
-function lerne(punkte) {
+function lerne(punkte, manaKosten) {
+    // Burnout Check: Wenn nicht genug Mana da ist, geht's auf die HP
+    if (char.mana < manaKosten) {
+        char.hp -= 10;
+        alert("Du hast kein Mana mehr! Das Lernen ist extrem anstrengend. -10 HP (Burnout-Gefahr!)");
+        
+        if (char.hp <= 0) {
+            alert("Game Over! Du bist völlig ausgebrannt. Das RPG startet neu.");
+            location.reload(); // Seite neu laden
+            return;
+        }
+    } else {
+        char.mana -= manaKosten;
+    }
+
     char.xp += punkte;
     
-    // Level-Up Check (Schleife, falls man genug XP für mehrere Level bekommt)
     while (char.xp >= char.xpBisLevelUp) {
         char.level += 1;
         char.xp -= char.xpBisLevelUp; 
-
-        // EXPONENTIELLER ALGORITHMUS: +20% Schwierigkeit pro Level
         char.xpBisLevelUp = Math.round(char.xpBisLevelUp * 1.2);
-        
-        alert("LEVEL UP! Du bist jetzt Level " + char.level + "\nNächstes Ziel: " + char.xpBisLevelUp + " XP");
+        alert("LEVEL UP! Du bist jetzt Level " + char.level);
     }
     updateUI();
 }
 
 /**
- * Verbraucht Mana für Freizeit-Aktivitäten.
+ * Zocken regeneriert im echten Leben Mana (Spaß), 
+ * aber hier im Spiel ist es eine "Quest", die Mana verbraucht (Zeit).
+ * Lass uns das später so umbauen, dass Zocken Mana REGENERIERT!
  */
 function zocken(kosten) {
     if (char.mana >= kosten) {
         char.mana -= kosten;
-        alert("Runde gezockt! Stress abgebaut, Mana verbraucht.");
+        alert("Runde gezockt! Aber eigentlich solltest du Mana regenerieren...");
     } else {
-        alert("Du bist zu erschöpft zum Zocken. Lern erst mal was!");
+        alert("Zu wenig Mana zum Zocken.");
     }
     updateUI();
 }
 
-/**
- * Berechnet die verbleibenden Tage bis zur Prüfung.
- */
 function updateCountdown() {
     const jetzt = new Date();
     const differenz = char.pruefungsDatum - jetzt;
-    
-    // Umrechnung: ms -> s -> min -> h -> tage
     const tageNoch = Math.floor(differenz / (1000 * 60 * 60 * 24));
-
     if (countdownAnzeige) {
-        countdownAnzeige.innerText = tageNoch > 0 ? tageNoch : "Viel Erfolg!";
+        countdownAnzeige.innerText = tageNoch > 0 ? tageNoch : "Prüfung!";
     }
 }
 
 // ==========================================
-// 4. UI-AKTUALISIERUNG (Darstellung)
+// 4. UI-AKTUALISIERUNG
 // ==========================================
 
 function updateUI() {
-    // Texte aktualisieren
     hpAnzeige.innerText = char.hp;
     wasserAnzeige.innerText = char.wasserEingenommen;
     levelAnzeige.innerText = char.level;
@@ -105,24 +105,15 @@ function updateUI() {
     xpZielAnzeige.innerText = char.xpBisLevelUp;
     manaAnzeige.innerText = char.mana;
 
-    // Dynamische Farben für die HP (Visuelles Feedback)
-    if (char.hp > 50) {
-        hpAnzeige.style.color = "green";
-    } else if (char.hp > 20) {
-        hpAnzeige.style.color = "orange";
-    } else {
-        hpAnzeige.style.color = "red";
-        hpAnzeige.style.fontWeight = "bold";
-    }
+    // HP Farbe
+    if (char.hp > 50) hpAnzeige.style.color = "green";
+    else if (char.hp > 20) hpAnzeige.style.color = "orange";
+    else hpAnzeige.style.color = "red";
+    
+    // Mana Farbe (Blau für Mana)
+    manaAnzeige.style.color = "blue";
 }
 
-// ==========================================
-// 5. START DER ANWENDUNG
-// ==========================================
-
-// Den Countdown jede Sekunde aktualisieren
 setInterval(updateCountdown, 1000);
-
-// Initialer Aufruf beim Laden der Seite
 updateCountdown();
 updateUI();
