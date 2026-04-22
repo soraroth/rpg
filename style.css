@@ -1,78 +1,123 @@
-/* Grunddesign: Dark Mode für Informatiker */
+:root {
+    --bg-color: #0f0f12;
+    --card-bg: rgba(30, 30, 35, 0.8);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --text-main: #e0e0e0;
+    --hp-color: #ff4d4d;      /* Knalliges Rot */
+    --mana-color: #00d2ff;    /* Leuchtendes Cyan */
+    --xp-color: #39ff14;      /* Neon Grün */
+    --accent: #bd93f9;        /* Lila für Highlights */
+}
+
 body { 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    line-height: 1.6; 
-    padding: 40px; 
-    background-color: #1e1e1e; /* VS Code Dunkelgrau */
-    color: #d4d4d4; 
-    max-width: 800px;
-    margin: 0 auto;
+    font-family: 'Fira Code', 'Courier New', monospace; 
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
 }
 
-h1, h3 {
-    color: #4ec9b0; /* Türkis/Grün wie in Code-Editoren */
-    text-align: center;
+h1 {
+    text-shadow: 0 0 10px var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
-/* Stats-Container */
+/* Das Stats-Fenster als edle Glas-Karte */
 #stats-fenster { 
-    background: #252526; 
-    padding: 20px; 
-    border-radius: 12px; 
-    border: 1px solid #3e3e42;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    padding: 25px; 
+    border-radius: 15px; 
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    width: 100%;
+    max-width: 600px;
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Zwei Spalten für die Stats */
-    gap: 10px;
-    margin-bottom: 30px;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 }
 
-#stats-fenster p {
-    margin: 5px 0;
-    font-size: 1.1em;
+.stat-group {
+    display: flex;
+    flex-direction: column;
 }
 
-/* Button-Styling */
+.stat-group strong {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+/* Professionelle Progress Bars */
+.bar-container {
+    width: 100%;
+    height: 8px;
+    background: #2a2a2e;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+    transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+.hp { background: var(--hp-color); box-shadow: 0 0 8px var(--hp-color); }
+.mana { background: var(--mana-color); box-shadow: 0 0 8px var(--mana-color); }
+.xp { background: var(--xp-color); box-shadow: 0 0 8px var(--xp-color); }
+
+/* Der Game Log als Terminal-Fenster */
+#game-log {
+    width: 100%;
+    max-width: 600px;
+    background: #000;
+    color: var(--xp-color);
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 0;
+    font-size: 0.85em;
+    border: 1px solid #222;
+}
+
+/* Interaktive Buttons */
 .button-group {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     gap: 10px;
+    justify-content: center;
     margin-bottom: 20px;
 }
 
 button { 
-    padding: 12px 20px; 
+    padding: 12px 18px; 
     cursor: pointer; 
-    border: none;
-    border-radius: 6px;
-    background-color: #3e3e42;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: #1e1e24;
     color: white;
-    font-weight: bold;
-    transition: all 0.2s ease;
+    font-family: inherit;
+    transition: 0.3s;
 }
-
-/* Spezielle Farben für Buttons */
-button[onclick*="trinkeWasser"] { border-bottom: 3px solid #007acc; }
-button[onclick*="lerne"] { border-bottom: 3px solid #4ec9b0; }
-button[onclick*="zocken"] { border-bottom: 3px solid #ce9178; }
 
 button:hover {
-    background-color: #505050;
-    transform: translateY(-2px);
+    background: var(--accent);
+    color: black;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--accent);
 }
 
-button:active {
-    transform: translateY(0);
+/* Animation bei Schaden */
+.shake {
+    animation: shake 0.3s ease-in-out;
 }
 
-hr { 
-    border: 0;
-    height: 1px;
-    background: #3e3e42;
-    margin: 30px 0; 
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
 }
-
-/* Status-Farben (werden vom JS überschrieben, hier als Fallback) */
-#hp-wert { font-weight: bold; }
-#mana-wert { color: #569cd6; font-weight: bold; }
