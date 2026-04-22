@@ -2,44 +2,68 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TERMINAL RPG | Pro Engine</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TERMINAL RPG | Engine Build</title>
+    
+    <link rel="stylesheet" href="src/ui/styles/main.css">
 </head>
 <body>
 
-    <div id="game-viewport">
-        <div id="world">
-            <div id="player">
-                <div class="player-name">Fachinformatiker</div>
-            </div>
-            </div>
-    </div>
-
-    <div id="ui-layer">
-        <div class="stats-card">
-            <div class="stat-row">
-                <span>HP</span>
-                <div class="progress-bg"><div id="bar-hp" class="progress-fill hp"></div></div>
-            </div>
-            <div class="stat-row">
-                <span>MP</span>
-                <div class="progress-bg"><div id="bar-mana" class="progress-fill mana"></div></div>
-            </div>
-            <div class="stat-row">
-                <span>XP</span>
-                <div class="progress-bg"><div id="bar-xp" class="progress-fill xp"></div></div>
-            </div>
-        </div>
+    <main id="app-container" data-engine-state="booting">
         
-        <div id="terminal-log">> Initialisiere System...</div>
-    </div>
+        <section id="game-viewport" aria-label="Spielewelt">
+            <div id="world">
+                <div id="player" data-entity="player">
+                    <span class="entity-label">FI/AE_01</span>
+                </div>
+            </div>
+        </section>
 
-    <script src="config.js"></script>
-    <script src="storage.js"></script>
-    <script src="input.js"></script>
-    <script src="player.js"></script>
-    <script src="world.js"></script>
-    <script src="engine.js"></script>
+        <aside id="ui-layer" aria-label="Heads Up Display">
+            
+            <article class="stats-card glassmorphism">
+                <header class="card-header">SYS_MONITOR_V2</header>
+                
+                <div class="stat-row">
+                    <span class="stat-label">HP</span>
+                    <div class="progress-track"><div id="bar-hp" class="progress-fill hp"></div></div>
+                    <span id="val-hp" class="stat-value">100/100</span>
+                </div>
+                
+                <div class="stat-row">
+                    <span class="stat-label">MP</span>
+                    <div class="progress-track"><div id="bar-mana" class="progress-fill mana"></div></div>
+                    <span id="val-mana" class="stat-value">50/50</span>
+                </div>
+                
+                <div class="stat-row">
+                    <span class="stat-label">XP</span>
+                    <div class="progress-track"><div id="bar-xp" class="progress-fill xp"></div></div>
+                    <span id="val-xp" class="stat-value">0/100</span>
+                </div>
+                
+                <div class="stat-row data-row">
+                    <span class="stat-label">LEVEL</span>
+                    <span id="val-lvl" class="stat-value highlight">1</span>
+                </div>
+            </article>
+            
+            <section id="terminal-console">
+                <header class="terminal-header">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    <span class="title">bash -- tty1</span>
+                </header>
+                <div id="terminal-log" class="terminal-body">
+                    <p class="sys-msg">> System initialisiert...</p>
+                    <p class="sys-msg">> Warte auf Core-Module...</p>
+                </div>
+            </section>
+        </aside>
+
+        <div id="overlay-container" class="hidden"></div>
+
+    </main>
+
+    <script type="module" src="src/core/main.js"></script>
 </body>
 </html>
