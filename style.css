@@ -1,0 +1,30 @@
+body { 
+    font-family: sans-serif; 
+    line-height: 1.6; 
+    padding: 20px; 
+    background-color: #f4f4f4; 
+}
+
+#stats-fenster { 
+    background: white; 
+    padding: 15px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+}
+
+button { 
+    padding: 10px; 
+    margin: 5px; 
+    cursor: pointer; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+button:hover {
+    background-color: #e0e0e0;
+}
+
+hr { 
+    margin: 20px 0; 
+}

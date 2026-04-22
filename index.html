@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fachinformatiker RPG</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Fachinformatiker RPG</h1>
+
+    <div id="stats-fenster">
+        <p><strong>Lebenspunkte:</strong> <span id="hp-wert">100</span> HP</p>
+        <p><strong>Wasser:</strong> <span id="wasser-wert">0</span> / 2500 ml</p>
+        <p><strong>Level:</strong> <span id="level-wert">1</span></p>
+        <p><strong>Erfahrung:</strong> <span id="xp-wert">0</span> / <span id="xp-ziel">100</span> XP</p>
+        <p><strong>Mana (Gaming-Zeit):</strong> <span id="mana-wert">50</span> MP</p>
+        <p><strong>Tage bis zur ZP:</strong> <span id="countdown-wert">???</span> Tage</p>
+    </div>
+
+    <hr>
+
+    <h3>Survival Quests</h3>
+    <div id="wasser-station">
+        <button onclick="trinkeWasser(250)">Glas Wasser (250ml)</button>
+        <button onclick="trinkeWasser(500)">Flasche Wasser (500ml)</button>
+    </div>
+
+    <h3>Lern Quests</h3>
+    <div id="lern-station">
+        <button onclick="lerne(20)">SQL Basics lernen (+20 XP)</button>
+        <button onclick="lerne(50)">Netzwerk-Projekt abschließen (+50 XP)</button>
+    </div>
+
+    <h3>Freizeit Quests</h3>
+    <div id="zock-station">
+        <button onclick="zocken(20)">Eine Runde zocken (-20 Mana)</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
