@@ -14,9 +14,14 @@ const Player = {
 
     init() {
         const savedData = Storage.load();
-        if (savedData) {
+        if (savedData && savedData.pos) {
             this.data = savedData;
-            console.log("> System: Spielstand geladen.");
+            console.log("> System: Daten geladen.");
+        } else {
+            // Falls kein Savegame da ist, setze Startwerte aus der Config
+            this.data.pos.x = CONFIG.PLAYER.START_X;
+            this.data.pos.y = CONFIG.PLAYER.START_Y;
+            console.log("> System: Initialer Start.");
         }
     },
 
