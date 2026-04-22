@@ -1,29 +1,172 @@
-#game-container {
-    width: 100%;
-    max-width: 600px;
-    height: 300px;
-    background: #050505;
-    border: 2px solid #222;
-    position: relative;
-    overflow: hidden;
+:root {
+    --bg-color: #08080a;
+    --panel-bg: rgba(20, 20, 25, 0.9);
+    --border-glow: rgba(189, 147, 249, 0.3);
+    --text-main: #e0e0e0;
+    --hp-color: #ff5555;
+    --mana-color: #8be9fd;
+    --xp-color: #50fa7b;
+    --accent: #bd93f9;
+    --warning: #ffb86c;
+}
+
+* { box-sizing: border-box; }
+
+body { 
+    font-family: 'Fira Code', 'Courier New', monospace; 
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent);
     margin: 20px 0;
-    border-radius: 10px;
+    letter-spacing: 5px;
 }
 
+/* Der Viewport (Kamera) */
+#game-viewport {
+    width: 850px;
+    height: 500px;
+    background: #000;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 1), inset 0 0 20px var(--border-glow);
+    overflow: hidden;
+    position: relative;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* Die Weltkarte */
 #world {
-    width: 1000px; /* Welt ist größer als das Fenster */
-    height: 1000px;
     position: absolute;
-    background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
-    background-size: 20px 20px;
+    background-image: 
+        linear-gradient(rgba(189, 147, 249, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(189, 147, 249, 0.1) 1px, transparent 1px);
+    background-size: 100px 100px;
+    transition: transform 0.1s ease-out; /* Glättet die Kamera-Bewegung */
 }
 
+/* Der Spieler */
 #player {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     background: var(--xp-color);
-    box-shadow: 0 0 15px var(--xp-color);
+    box-shadow: 0 0 20px var(--xp-color);
     position: absolute;
     border-radius: 4px;
-    transition: transform 0.1s linear;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player-name {
+    position: absolute;
+    top: -25px;
+    font-size: 10px;
+    white-space: nowrap;
+    background: rgba(0,0,0,0.8);
+    padding: 2px 6px;
+    border: 1px solid var(--xp-color);
+    border-radius: 3px;
+}
+
+/* Entitäten (PC, Server, etc.) */
+.entity {
+    position: absolute;
+    background: rgba(139, 233, 253, 0.1);
+    border: 1px solid var(--mana-color);
+    box-shadow: inset 0 0 15px rgba(139, 233, 253, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.entity:hover {
+    background: rgba(139, 233, 253, 0.3);
+    box-shadow: 0 0 20px var(--mana-color);
+}
+
+.entity-label {
+    font-size: 11px;
+    color: var(--mana-color);
+    font-weight: bold;
+    text-shadow: 0 0 5px #000;
+}
+
+/* UI Layer */
+#ui-layer {
+    width: 850px;
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 20px;
+}
+
+.stats-card {
+    background: var(--panel-bg);
+    padding: 20px;
+    border: 1px solid var(--border-glow);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.stat-row {
+    margin-bottom: 15px;
+}
+
+.stat-row span {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: #aaa;
+}
+
+.progress-bg {
+    width: 100%;
+    height: 12px;
+    background: #1a1a20;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hp { background: linear-gradient(90deg, #ff5555, #ff79c6); box-shadow: 0 0 10px var(--hp-color); }
+.mana { background: linear-gradient(90deg, #8be9fd, #50fa7b); box-shadow: 0 0 10px var(--mana-color); }
+.xp { background: linear-gradient(90deg, #f1fa8c, #50fa7b); box-shadow: 0 0 10px var(--xp-color); }
+
+#terminal-log {
+    background: #000;
+    border: 1px solid #333;
+    padding: 15px;
+    font-size: 13px;
+    color: var(--xp-color);
+    border-radius: 8px;
+    height: 140px;
+    overflow-y: hidden;
+    position: relative;
+}
+
+/* Schüttel-Animation bei Fehlern */
+.shake { animation: shake 0.4s linear; }
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
 }
