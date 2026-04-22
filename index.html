@@ -3,33 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TERMINAL RPG v2.0</title>
+    <title>TERMINAL RPG | Pro Engine</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>TERMINAL ENGINE v2.0</h1>
 
-    <div id="game-container">
+    <div id="game-viewport">
         <div id="world">
-            <div id="player"></div>
-        </div>
+            <div id="player">
+                <div class="player-name">Fachinformatiker</div>
+            </div>
+            </div>
     </div>
 
-    <div id="stats-fenster">
-        <div class="stat-group">
-            <strong>Health</strong>
-            <div class="bar-container"><div id="hp-bar" class="bar hp"></div></div>
+    <div id="ui-layer">
+        <div class="stats-card">
+            <div class="stat-row">
+                <span>HP</span>
+                <div class="progress-bg"><div id="bar-hp" class="progress-fill hp"></div></div>
+            </div>
+            <div class="stat-row">
+                <span>MP</span>
+                <div class="progress-bg"><div id="bar-mana" class="progress-fill mana"></div></div>
+            </div>
+            <div class="stat-row">
+                <span>XP</span>
+                <div class="progress-bg"><div id="bar-xp" class="progress-fill xp"></div></div>
+            </div>
         </div>
-        <div class="stat-group">
-            <strong>Mana</strong>
-            <div class="bar-container"><div id="mana-bar" class="bar mana"></div></div>
-        </div>
+        
+        <div id="terminal-log">> Initialisiere System...</div>
     </div>
 
-    <div id="game-log">> System online. Nutze WASD zum Bewegen.</div>
-
+    <script src="config.js"></script>
     <script src="storage.js"></script>
+    <script src="input.js"></script>
     <script src="player.js"></script>
+    <script src="world.js"></script>
     <script src="engine.js"></script>
 </body>
 </html>
