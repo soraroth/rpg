@@ -15,27 +15,27 @@
         <p><strong>Wasser:</strong> <span id="wasser-wert">0</span> / 2500 ml</p>
         <p><strong>Level:</strong> <span id="level-wert">1</span></p>
         <p><strong>Erfahrung:</strong> <span id="xp-wert">0</span> / <span id="xp-ziel">100</span> XP</p>
-        <p><strong>Mana (Gaming-Zeit):</strong> <span id="mana-wert">50</span> MP</p>
-        <p><strong>Tage bis zur ZP:</strong> <span id="countdown-wert">???</span> Tage</p>
+        <p><strong>Mana:</strong> <span id="mana-wert">50</span> MP</p>
+        <p><strong>Tage bis ZP:</strong> <span id="countdown-wert">???</span></p>
     </div>
 
     <hr>
 
     <h3>Survival Quests</h3>
-    <div id="wasser-station">
+    <div class="button-group">
         <button onclick="trinkeWasser(250)">Glas Wasser (250ml)</button>
         <button onclick="trinkeWasser(500)">Flasche Wasser (500ml)</button>
     </div>
 
     <h3>Lern Quests</h3>
-    <div id="lern-station">
-        <button onclick="lerne(20, 10)">SQL Basics lernen (+20 XP, -10 Mana)</button>
-        <button onclick="lerne(50, 25)">Netzwerk-Projekt abschließen (+50 XP, -25 Mana)</button>
+    <div class="button-group">
+        <button onclick="lerne(20, 10)">SQL Basics (+20 XP, -10 Mana)</button>
+        <button onclick="lerne(50, 25)">Netzwerk-Projekt (+50 XP, -25 Mana)</button>
     </div>
 
     <h3>Freizeit Quests</h3>
-    <div id="zock-station">
-        <button onclick="zocken(20)">Eine Runde zocken (-20 Mana)</button>
+    <div class="button-group">
+        <button onclick="zocken(20)">Pause machen / Zocken</button>
     </div>
 
     <script src="app.js"></script>
